@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="字典树（前缀树）Trie是一种数据结构，用于高效的存储和检索字符串数据集中的键。应用场景：自动补充和拼写检查 Leetcode.208 实现前缀树1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253class Trie &#123;    private T">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从Leetcode上学字典树">
+<meta property="og:url" content="https://cheung0-bit.github.io/ede49e41292e/index.html">
+<meta property="og:site_name" content="Bruce Zhang&#39;s Blogs">
+<meta property="og:description" content="字典树（前缀树）Trie是一种数据结构，用于高效的存储和检索字符串数据集中的键。应用场景：自动补充和拼写检查 Leetcode.208 实现前缀树1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253class Trie &#123;    private T">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-12-01T06:18:27.000Z">
+<meta property="article:modified_time" content="2023-12-01T06:20:16.413Z">
+<meta property="article:author" content="张林">
+<meta property="article:tag" content="数据结构与算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>从Leetcode上学字典树</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Bruce Zhang&#39;s Blogs" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Articles</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/15eb14644a19/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://cheung0-bit.github.io/ede49e41292e/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://cheung0-bit.github.io/ede49e41292e/&text=从Leetcode上学字典树"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://cheung0-bit.github.io/ede49e41292e/&title=从Leetcode上学字典树"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cheung0-bit.github.io/ede49e41292e/&is_video=false&description=从Leetcode上学字典树"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=从Leetcode上学字典树&body=Check out this article: https://cheung0-bit.github.io/ede49e41292e/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://cheung0-bit.github.io/ede49e41292e/&title=从Leetcode上学字典树"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://cheung0-bit.github.io/ede49e41292e/&title=从Leetcode上学字典树"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://cheung0-bit.github.io/ede49e41292e/&title=从Leetcode上学字典树"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://cheung0-bit.github.io/ede49e41292e/&title=从Leetcode上学字典树"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://cheung0-bit.github.io/ede49e41292e/&name=从Leetcode上学字典树&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://cheung0-bit.github.io/ede49e41292e/&t=从Leetcode上学字典树"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Leetcode-208-%E5%AE%9E%E7%8E%B0%E5%89%8D%E7%BC%80%E6%A0%91"><span class="toc-number">1.</span> <span class="toc-text">Leetcode.208 实现前缀树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Leetcode-720-%E5%AD%97%E5%85%B8%E4%B8%AD%E6%9C%80%E9%95%BF%E7%9A%84%E5%8D%95%E8%AF%8D"><span class="toc-number">2.</span> <span class="toc-text">Leetcode.720 字典中最长的单词</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        从Leetcode上学字典树
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">张林</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-12-01T06:18:27.000Z" itemprop="datePublished">2023-12-01</time>
+        
+        (Updated: <time datetime="2023-12-01T06:20:16.413Z" itemprop="dateModified">2023-12-01</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a> › <a class="category-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag">数据结构与算法</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>字典树（前缀树）Trie是一种数据结构，用于高效的存储和检索字符串数据集中的键。应用场景：自动补充和拼写检查</p>
+<h2 id="Leetcode-208-实现前缀树"><a href="#Leetcode-208-实现前缀树" class="headerlink" title="Leetcode.208 实现前缀树"></a>Leetcode.208 实现前缀树</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Trie</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Trie[] children;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> isEnd;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Trie</span><span class="params">()</span> &#123;</span><br><span class="line">        children = <span class="keyword">new</span> <span class="title class_">Trie</span>[<span class="number">26</span>];</span><br><span class="line">        isEnd = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insert</span><span class="params">(String word)</span> &#123;</span><br><span class="line">        <span class="type">Trie</span> <span class="variable">node</span> <span class="operator">=</span> <span class="built_in">this</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;word.length();i++) &#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">ch</span> <span class="operator">=</span> word.charAt(i);</span><br><span class="line">            <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> ch - <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">            <span class="keyword">if</span>(node.children[index]==<span class="literal">null</span>) &#123;</span><br><span class="line">                node.children[index] = <span class="keyword">new</span> <span class="title class_">Trie</span>();</span><br><span class="line">            &#125;</span><br><span class="line">            node = node.children[index];</span><br><span class="line">        &#125;</span><br><span class="line">        node.isEnd = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">search</span><span class="params">(String word)</span> &#123;</span><br><span class="line">        <span class="type">Trie</span> <span class="variable">node</span> <span class="operator">=</span> searchPrefix(word);</span><br><span class="line">        <span class="keyword">return</span> node != <span class="literal">null</span> &amp;&amp; node.isEnd;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">startsWith</span><span class="params">(String prefix)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> searchPrefix(prefix) != <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Trie <span class="title function_">searchPrefix</span><span class="params">(String prefix)</span> &#123;</span><br><span class="line">        <span class="type">Trie</span> <span class="variable">node</span> <span class="operator">=</span> <span class="built_in">this</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;prefix.length();i++) &#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">ch</span> <span class="operator">=</span> prefix.charAt(i);</span><br><span class="line">            <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> ch - <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">            <span class="keyword">if</span>(node.children[index]==<span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            node = node.children[index];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your Trie object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * Trie obj = new Trie();</span></span><br><span class="line"><span class="comment"> * obj.insert(word);</span></span><br><span class="line"><span class="comment"> * boolean param_2 = obj.search(word);</span></span><br><span class="line"><span class="comment"> * boolean param_3 = obj.startsWith(prefix);</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>这里使用了Trie数组来存储子节点，也可以使用TreeMap来实现</p>
+<h2 id="Leetcode-720-字典中最长的单词"><a href="#Leetcode-720-字典中最长的单词" class="headerlink" title="Leetcode.720 字典中最长的单词"></a>Leetcode.720 字典中最长的单词</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">longestWord</span><span class="params">(String[] words)</span> &#123;</span><br><span class="line">        <span class="type">Trie</span> <span class="variable">trie</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Trie</span>();</span><br><span class="line">        <span class="keyword">for</span> (String word : words) &#123;</span><br><span class="line">            trie.insert(word);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">String</span> <span class="variable">longest</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span> (String word : words) &#123;</span><br><span class="line">            <span class="keyword">if</span> (trie.search(word)) &#123;</span><br><span class="line">                <span class="keyword">if</span> (word.length() &gt; longest.length() || (word.length() == longest.length() &amp;&amp; word.compareTo(longest) &lt; <span class="number">0</span>)) &#123;</span><br><span class="line">                    longest = word;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> longest;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Trie</span> &#123;</span><br><span class="line">    Trie[] children;</span><br><span class="line">    <span class="type">boolean</span> isEnd;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Trie</span><span class="params">()</span> &#123;</span><br><span class="line">        children = <span class="keyword">new</span> <span class="title class_">Trie</span>[<span class="number">26</span>];</span><br><span class="line">        isEnd = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insert</span><span class="params">(String word)</span> &#123;</span><br><span class="line">        <span class="type">Trie</span> <span class="variable">node</span> <span class="operator">=</span> <span class="built_in">this</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; word.length(); i++) &#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">ch</span> <span class="operator">=</span> word.charAt(i);</span><br><span class="line">            <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> ch - <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">            <span class="keyword">if</span> (node.children[index] == <span class="literal">null</span>) &#123;</span><br><span class="line">                node.children[index] = <span class="keyword">new</span> <span class="title class_">Trie</span>();</span><br><span class="line">            &#125;</span><br><span class="line">            node = node.children[index];</span><br><span class="line">        &#125;</span><br><span class="line">        node.isEnd = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">search</span><span class="params">(String word)</span> &#123;</span><br><span class="line">        <span class="type">Trie</span> <span class="variable">node</span> <span class="operator">=</span> <span class="built_in">this</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; word.length(); i++) &#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">ch</span> <span class="operator">=</span> word.charAt(i);</span><br><span class="line">            <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> ch - <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">            <span class="keyword">if</span> (node.children[index] == <span class="literal">null</span> || !node.children[index].isEnd) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            node = node.children[index];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> node != <span class="literal">null</span> &amp;&amp; node.isEnd;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这题是对Trim的完美应用。精辟的在于search()函数中，一旦该字符串的节点路径上存在节点的isEnd属性为假，那么就将该字符串抛弃</p>
+
+  </div>
+</article>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Leetcode-208-%E5%AE%9E%E7%8E%B0%E5%89%8D%E7%BC%80%E6%A0%91"><span class="toc-number">1.</span> <span class="toc-text">Leetcode.208 实现前缀树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Leetcode-720-%E5%AD%97%E5%85%B8%E4%B8%AD%E6%9C%80%E9%95%BF%E7%9A%84%E5%8D%95%E8%AF%8D"><span class="toc-number">2.</span> <span class="toc-text">Leetcode.720 字典中最长的单词</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://cheung0-bit.github.io/ede49e41292e/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://cheung0-bit.github.io/ede49e41292e/&text=从Leetcode上学字典树"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://cheung0-bit.github.io/ede49e41292e/&title=从Leetcode上学字典树"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cheung0-bit.github.io/ede49e41292e/&is_video=false&description=从Leetcode上学字典树"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=从Leetcode上学字典树&body=Check out this article: https://cheung0-bit.github.io/ede49e41292e/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://cheung0-bit.github.io/ede49e41292e/&title=从Leetcode上学字典树"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://cheung0-bit.github.io/ede49e41292e/&title=从Leetcode上学字典树"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://cheung0-bit.github.io/ede49e41292e/&title=从Leetcode上学字典树"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://cheung0-bit.github.io/ede49e41292e/&title=从Leetcode上学字典树"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://cheung0-bit.github.io/ede49e41292e/&name=从Leetcode上学字典树&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://cheung0-bit.github.io/ede49e41292e/&t=从Leetcode上学字典树"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+      
+        
+          2022-2023
+            <a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/">
+              苏ICP备2022044873号
+            </a>
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+          <!--
+       -->
+          <li><a href="/">
+              Home
+            </a></li>
+          <!--
+     -->
+          
+          <!--
+       -->
+          <li><a href="/about/">
+              About
+            </a></li>
+          <!--
+     -->
+          
+          <!--
+       -->
+          <li><a href="/archives/">
+              Articles
+            </a></li>
+          <!--
+     -->
+          
+          <!--
+       -->
+          <li><a href="/categories/">
+              Category
+            </a></li>
+          <!--
+     -->
+          
+          <!--
+       -->
+          <li><a href="/search/">
+              Search
+            </a></li>
+          <!--
+     -->
+          
+      </ul>
+    </nav>
+  </div>
+</footer>
+    </div>
+    <!-- styles -->
+
+
+ 
+  <link
+    rel="preload"
+    href="/lib/font-awesome/css/all.min.css"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+  <noscript
+    ><link
+      rel="stylesheet"
+      href="/lib/font-awesome/css/all.min.css"
+  /></noscript>
+
+
+
+    <!-- jquery -->
+ 
+  
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+
+
+
+<!-- clipboard -->
+
+   
+    
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'Cheung0-bit/blog-package';
+      var utterances_issue_term = 'title';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+</body>
+</html>
